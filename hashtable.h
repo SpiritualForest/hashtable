@@ -20,6 +20,5 @@ int hadd(struct hashtable *ht, char *key, char *value);
 void hdel(struct hashtable *ht, char *key);
 char *hget(struct hashtable *ht, char *key);
 void hfree(struct hashtable *ht);
-//unsigned int hash(char *key, size_t hashtable_size);
 
 #endif /* hashtable.h */
