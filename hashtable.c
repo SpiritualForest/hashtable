@@ -20,8 +20,8 @@ static unsigned int hash(char *key, size_t hashtable_size) {
     return sum % hashtable_size;
 }
 
-static int get_load_factor(struct hashtable *ht) {
-    /* Not unsigned int because it can be negative as well */
+static unsigned int get_load_factor(struct hashtable *ht) {
+    /* Returns the load factor of the hash table */
     return ht->entries / ht->size;
 }
 
@@ -62,7 +62,10 @@ static void _resize(struct hashtable *ht) {
             struct pair *previous = kvpair;
             entryindex++;
             kvpair = kvpair->next;
-            /* We have to set each element's "next" pointer to NULL, otherwise it might still be linked to other structs */
+            /* We have to set each element's "next" pointer to NULL, otherwise it might still be linked to other structs.
+             * kvpair was set to whatever its next pointer is, because of the loop.
+             * This means we need to have another pointer that points to the PREVIOUS value of kvpair,
+             * so that we can set the previous kvpair's "next" pointer to NULL. */
             previous->next = NULL;
         }
         /* We've copied all the list entries in this bucket. Now we set its head to NULL */
